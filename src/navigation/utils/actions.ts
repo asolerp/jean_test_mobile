@@ -1,8 +1,8 @@
-import { NavigationContainerRef, StackActions } from '@react-navigation/native'
+import { StackActions } from '@react-navigation/native'
 import { createRef } from 'react'
 import { ScreenKeys, StackKeys, StackScreenKeys } from './types'
 
-export const navigation = createRef<NavigationContainerRef>()
+export const navigation = createRef<any>()
 export const routeName: { current: string | undefined } = { current: '' }
 
 export const popScreen = () => {

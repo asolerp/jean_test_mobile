@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { DUMMY_SCREEN_KEY } from '@screens/utils/keyts'
-import Dummy from '@screens/DummyScreen/Dummy'
+import { HOME_SCREEN_KEY } from '@src/screens/utils/keys'
+
+import { HomeScreen } from '@src/screens/HomeScreen/HomeScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -11,7 +12,7 @@ export const MainStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name={DUMMY_SCREEN_KEY} component={Dummy} />
+      <Stack.Screen name={HOME_SCREEN_KEY} component={HomeScreen} />
     </Stack.Navigator>
   )
 }

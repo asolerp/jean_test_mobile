@@ -1,4 +1,4 @@
-import { DUMMY_SCREEN_KEY } from '@src/screens/utils/keyts'
+import { DUMMY_SCREEN_KEY } from '@src/screens/utils/keys'
 import { MAIN_STACK_KEY } from './keys'
 
 export type RoutingData<T> = { routingData: T }
