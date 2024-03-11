@@ -1,13 +1,13 @@
-import React, { ReactNode, createContext, useContext, useRef } from 'react'
+import React, { ReactNode, createContext, useRef } from 'react'
 import OpenAPIClientAxios from 'openapi-client-axios'
-import { Client } from './generated/client'
-import definition from './generated/schema.json'
+import { Client } from '../../api/generated/client'
+import definition from '../../api/generated/schema.json'
 
 interface ApiContextState {
   client: Client | undefined
 }
 
-const ApiContext = createContext<ApiContextState>({
+export const ApiContext = createContext<ApiContextState>({
   client: undefined,
 })
 
@@ -41,14 +41,4 @@ export const ApiProvider: React.FC<ApiProviderProps> = ({
       {children}
     </ApiContext.Provider>
   )
-}
-
-export const useApi = () => {
-  const { client } = useContext(ApiContext)
-
-  if (!client) {
-    throw new Error('A client API must be defined')
-  }
-
-  return client
 }
