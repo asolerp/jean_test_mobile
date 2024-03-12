@@ -1,88 +1,56 @@
-# Jean Test Mobile
+# Invoicing App - React Native Project
 
-This repository contains instructions for the React Native hiring test, as well as a bootstrapped React Native app with which to start.
+## Introduction
 
-## Your mission
+This project is my submission for the React Native test, focusing on implementing an invoicing application. I've developed a solution that enables users to effortlessly manage invoices, with a strong emphasis on code quality, performance, and user experience, adhering to best development practices.
 
-> ***Implement an invoicing app with React Native***
+## Features
 
-### Objectives
+The application offers the following functionalities:
 
-The goal is to leverage an existing REST HTTP API to build the prototype of an invoicing app.
+- **List existing invoices**: Users can view a list of their invoices, including relevant details for each.
+- **Create new invoices**: Provides the ability to add new invoices to the system.
+- **Manage existing invoices**: Users can finalize or delete invoices as needed.
 
-This prototype allows users to perform simple actions around their invoices:
-- List existing invoices with relevant details
-- Create new invoices
-- Manage existing invoices
-  - Finalize invoices
-  - Delete invoices
+### Technologies and Tools Used
 
-We do not expect the prototype to be feature-rich as we'll mainly focus on code quality, performance & user experience.
-We expect you to adopt standard coding practices & setup as if you were working on a real application with other coworkers.
+- **React Native** for mobile application development.
+- **NativeWind** tailwind ready for react native.
+- **Context & Jotai** for state management, ensuring a smooth and responsive user experience.
+- **Axios** along with `openapi-client-axios` for API calls, facilitating backend interaction.
+- **Formik** for form management, enhancing the invoice creation and editing experience.
+- **React Reanimated** for animation performances.
 
-Feel free to use pre-installed dependencies or add new ones if you have a legitimate use of them.
+### Code and Project Structure
 
-Please take the time to identify advanced features that could be added in the future & write down tech improvements/ideas you could work on.
+The project is structured to facilitate code readability and maintenance:
 
-For each feature/tech improvement, we want to understand:
-- What led you to think about this
-- Why it would be useful
-- What might be missing for you to implement it (API limitations, technical constraints)
+- `/api`: Configures the API client and backend interaction hooks.
+- `/assets`: Stores static files like images and fonts.
+- `/components`: Contains reusable UI components.
+- `/navigation`: Manages app navigation configurations.
+- `/screens`: Holds the app's individual screens.
+- `/state`: Manages global app state contexts.
+- `/utils`: Provides utility functions and helpers.
 
-### Deliverable
+## Running the App
 
-- Create a private GitHub repository containing the source code of your application
-- Invite the following GitHub users to it: `@quentindemetz` `@tdeo` `@jibinjosepez` `@jsiny` `@soyoh` `@LucaGaspa` `@greeeg`
+To run the application, follow these steps:
 
-## What you're working with
+1. Clone the repository and navigate to the project directory.
+2. Install dependencies with `yarn install`.
+3. Start the application with `yarn start` and `yarn ios` or `yarn android`, depending on your development environment.
 
-Please note that we rely on [`asdf`](https://github.com/asdf-vm/asdf) to manage Ruby/Node/Yarn versions. Feel free to use something else & have a look at `.tool-versions` if you run in any trouble.
+## Future Enhancements
 
-### Getting started
+I've identified several areas for future improvements and features:
 
-```sh
-git clone git@github.com:pennylane-hq/jean_test_mobile.git
+- **User authentication**: Implement a login system for personalized user experiences.
+- **User interface improvements**: Add animations and transitions for a smoother experience.
+- **Performance optimization**: Investigate and apply React Native-specific performance optimization techniques.
 
-cd jean_test_mobile
+## Final Thoughts
 
-bin/pull
+I'm open to any feedback you might offer. My goal was to create an application that is not only functional but also ready to scale and evolve. I hope you find the code organized and easy to understand, and that the application meets the proposed objectives.
 
-# Make sure to add your token (sent by email)
-cp .env.example .env
-
-yarn start
-
-yarn ios
-```
-
-### Data model
-
-The REST API contains 4 resources: customers, products, invoices & invoice lines.
-
-Side notes:
-- Invoices contain multiple invoice lines.
-- Invoice lines are accessed via their invoice. To update them, use the relevant invoice API endpoints.
-- Once the `finalized` field is set to `true` for invoices, no field may be modified except for `paid`.
-
-The REST API base URL is `https://jean-test-api.herokuapp.com/`.
-Each API call must be authenticated using a `X-SESSION` header with the provided token.
-
-An OpenAPI definition for this REST API is avaible [here](https://jean-test-api.herokuapp.com/api-docs/index.html)
-
-### API client
-
-An API client based on `openapi-client-axios` is available through a React Context set up in `src/api/index.tsx`. The provider is mounted in `src/App.tsx` & the context can be consumed using the `useApi` hook from `src/api/index.tsx`.
-
-```tsx
-const MyComponent = () => {
-  const apiClient = useApi()
-
-  useEffect(() => {
-    apiClient.getInvoices().then(res => {
-      // Do something...
-    })
-  }, [apiClient])
-
-  return null
-}
-```
+Thank you for the opportunity to participate in this test.
