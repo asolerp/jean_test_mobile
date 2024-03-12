@@ -13,7 +13,9 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  modulePathIgnorePatterns: ['<rootDir>/build'],
   moduleNameMapper: {
+    '\\.css$': 'identity-obj-proxy',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '^@api/(.*)$': '<rootDir>/src/api/$1',
     '^@assets/(.*)$': '<rootDir>/src/assets/$1',

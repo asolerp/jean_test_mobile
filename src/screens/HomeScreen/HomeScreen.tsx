@@ -1,78 +1,63 @@
 import Animated, { FadeIn } from 'react-native-reanimated'
 import { useInitialAnimation } from './hooks/useInitialAnimation'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { View } from 'react-native'
 import { AddButton } from '@components/common/AddButton'
-import { View, styled } from '@tamagui/core'
-import { StyleSheet } from 'react-native'
-import { PENNYLANE_SECONDARY } from '@utils/colors'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useState } from 'react'
+import { openScreen } from '@src/navigation/utils/actions'
+import { NEW_INVOICE_SCREEN_KEY } from '../utils/keys'
 
 export const HomeScreen = () => {
+  const [containerWidth, setContainerWidth] = useState(0)
   const { animatedLogoStyle, animatedBackgroundStyle, animationFinished } =
     useInitialAnimation()
 
   return (
-    <Animated.View style={[NativeStyles.wrapper, animatedBackgroundStyle]}>
-      <StyledInnerContainer>
-        <StyledLogoContainer>
+    <Animated.View className="flex-1 p-6" style={[animatedBackgroundStyle]}>
+      <SafeAreaView
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flex: 1,
+        }}
+      >
+        <View className="absolute flex-1 top-0 bottom-0 left-0 right-0 justify-center items-center">
           <Animated.Image
-            style={[NativeStyles.logo, animatedLogoStyle]}
+            className="w-36 h-36"
+            style={[animatedLogoStyle]}
             source={require('../../assets/penny_logo.png')}
           />
-        </StyledLogoContainer>
+        </View>
         {animationFinished && (
-          <View flex={1}>
+          <View
+            className="flex-1"
+            onLayout={(event) => {
+              const { width } = event.nativeEvent.layout
+              setContainerWidth(width)
+            }}
+          >
             <View>
               <Animated.Text
-                style={[NativeStyles.welcomeText]}
+                className="font-normal text-lg text-pennylane-secondary"
                 entering={FadeIn}
               >
                 Welcome back!
               </Animated.Text>
-              <Animated.Text style={[NativeStyles.boldText]} entering={FadeIn}>
+              <Animated.Text
+                className="font-bold text-lg text-pennylane-secondary"
+                entering={FadeIn}
+              >
                 Pennylane 👋
               </Animated.Text>
             </View>
-            <AddButton />
+            {containerWidth > 0 && (
+              <AddButton
+                onPress={() => openScreen(NEW_INVOICE_SCREEN_KEY)}
+                containerWidth={containerWidth}
+              />
+            )}
           </View>
         )}
-      </StyledInnerContainer>
+      </SafeAreaView>
     </Animated.View>
   )
 }
-
-const NativeStyles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    padding: 24,
-  },
-  logo: {
-    width: 126,
-    height: 126,
-  },
-  welcomeText: {
-    fontSize: 16,
-    color: PENNYLANE_SECONDARY,
-  },
-  boldText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: PENNYLANE_SECONDARY,
-  },
-})
-
-const StyledInnerContainer = styled(SafeAreaView, {
-  flex: 1,
-  justifyContent: 'flex-start',
-})
-
-const StyledLogoContainer = styled(View, {
-  flex: 1,
-
-  position: 'absolute',
-  top: 0,
-  right: 0,
-  left: 0,
-  bottom: 0,
-  justifyContent: 'center',
-  alignItems: 'center',
-})
