@@ -1,20 +1,28 @@
-import Animated, { FadeIn } from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { useInitialAnimation } from './hooks/useInitialAnimation'
 import { View } from 'react-native'
-import { AddButton } from '@components/common/AddButton'
+import { AddButton } from '@src/components/common/AddButton'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useState } from 'react'
 import { openScreen } from '@src/navigation/utils/actions'
 import { NEW_INVOICE_SCREEN_KEY } from '../utils/keys'
+import { WelcomeMessage } from '@src/components/features/HomeScreen/WelcomeMessage'
+import { useGetInvoices } from './hooks/useGetInvoices'
+import { Spacer } from '@src/components/common/Spacer'
+import { InvoiceInfinityList } from '@src/components/features/HomeScreen/InvoiceInfinityList'
 
 export const HomeScreen = () => {
   const [containerWidth, setContainerWidth] = useState(0)
   const { animatedLogoStyle, animatedBackgroundStyle, animationFinished } =
     useInitialAnimation()
+  const { data, fetchNextPage, hasNextPage } = useGetInvoices()
+
+  console.log('DATA', data)
 
   return (
     <Animated.View className="flex-1 p-6" style={[animatedBackgroundStyle]}>
       <SafeAreaView
+        edges={['top']}
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           flex: 1,
@@ -35,20 +43,13 @@ export const HomeScreen = () => {
               setContainerWidth(width)
             }}
           >
-            <View>
-              <Animated.Text
-                className="font-normal text-lg text-pennylane-secondary"
-                entering={FadeIn}
-              >
-                Welcome back!
-              </Animated.Text>
-              <Animated.Text
-                className="font-bold text-lg text-pennylane-secondary"
-                entering={FadeIn}
-              >
-                Pennylane 👋
-              </Animated.Text>
-            </View>
+            <WelcomeMessage />
+            <Spacer size={4} />
+            <InvoiceInfinityList
+              invoices={data?.pages.flatMap((page) => page.invoices)}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+            />
             {containerWidth > 0 && (
               <AddButton
                 onPress={() => openScreen(NEW_INVOICE_SCREEN_KEY)}

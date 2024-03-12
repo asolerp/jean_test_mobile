@@ -1,5 +1,6 @@
 import React, { ReactNode, createContext, useRef } from 'react'
 import OpenAPIClientAxios from 'openapi-client-axios'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { Client } from '../../api/generated/client'
 import definition from '../../api/generated/schema.json'
 
@@ -36,9 +37,14 @@ export const ApiProvider: React.FC<ApiProviderProps> = ({
   )
   const clientRef = useRef(apiRef.current.initSync<Client>())
 
+  // QueryClient for React Query
+  const queryClient = new QueryClient()
+
   return (
-    <ApiContext.Provider value={{ client: clientRef.current }}>
-      {children}
-    </ApiContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <ApiContext.Provider value={{ client: clientRef.current }}>
+        {children}
+      </ApiContext.Provider>
+    </QueryClientProvider>
   )
 }

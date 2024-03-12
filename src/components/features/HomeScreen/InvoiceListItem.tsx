@@ -1,0 +1,78 @@
+import { InvoiceType } from '@src/utils/types'
+import { Text, View } from 'react-native'
+import Dollar from '@src/assets/icons/dollar.svg'
+import { RED_100 } from '@src/utils/colors'
+import { Spacer } from '@src/components/common/Spacer'
+import { formatCurrency } from 'react-native-format-currency'
+import { Badge } from '@src/components/common/Badge'
+import Clock from '@src/assets/icons/clock.svg'
+import Deadline from '@src/assets/icons/deadline.svg'
+
+type InvoiceListItemProps = {
+  invoice: InvoiceType
+}
+
+export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
+  invoice,
+}) => {
+  const {
+    customer: { first_name, last_name } = {},
+    date,
+    deadline,
+    total,
+    tax,
+    finalized,
+  } = invoice
+
+  const [, taxWithoutSymbol, symbol] = formatCurrency({
+    amount: Number(tax),
+    code: 'EUR',
+  })
+  const [, totalWithoutSymbol] = formatCurrency({
+    amount: Number(total),
+    code: 'EUR',
+  })
+
+  return (
+    <View className="flex-row justify-between">
+      <View className="flex-row">
+        <View className="p-5 bg-red-300 rounded-2xl">
+          <Dollar width={20} height={20} fill={RED_100} />
+        </View>
+        <Spacer size={1} isHorizontal />
+        <View className="py-2">
+          <Badge
+            label={finalized ? 'Not finalized' : 'Finalized'}
+            state={finalized ? 'danger' : 'success'}
+          />
+          <Text className="text-lg">
+            {first_name} {last_name}
+          </Text>
+          <View className="flex-row">
+            <View className="flex-row items-center">
+              <Clock width={15} height={15} />
+              <Spacer size={0.5} isHorizontal />
+              <Text className="text-xs">{date}</Text>
+            </View>
+            <Spacer size={1} isHorizontal />
+            <View className="flex-row items-center">
+              <Deadline width={15} height={15} />
+              <Spacer size={0.5} isHorizontal />
+              <Text className="text-xs">{deadline}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View className="items-end">
+        <Text className="text-sm">
+          {taxWithoutSymbol}
+          {symbol}
+        </Text>
+        <Text className="font-bold text-xl">
+          {totalWithoutSymbol}
+          {symbol}
+        </Text>
+      </View>
+    </View>
+  )
+}

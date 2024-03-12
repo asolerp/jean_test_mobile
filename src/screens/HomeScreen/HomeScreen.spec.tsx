@@ -3,8 +3,8 @@ import '@tamagui/polyfill-dev'
 import React from 'react'
 
 import { render, waitFor } from '@testing-library/react-native'
+import { useInitialAnimation } from './hooks/useInitialAnimation'
 import { HomeScreen } from './HomeScreen'
-import { useInitialAnimation } from '@screens/HomeScreen/hooks/useInitialAnimation'
 
 jest.mock('@screens/HomeScreen/hooks/useInitialAnimation', () => ({
   useInitialAnimation: jest.fn(),

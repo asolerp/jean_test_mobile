@@ -1,2 +1,5 @@
 export const PENNYLANE_PRIMARY = '#d9fbf2'
 export const PENNYLANE_SECONDARY = '#22615d'
+export const GRAY_900 = '#1f2937'
+export const RED_500 = '#ef4444'
+export const RED_100 = '#fde8e8'

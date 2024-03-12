@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 
 import Config from 'react-native-config'
 
-import { ApiProvider } from '@state/context/ApiContext'
-import { RootNavigation } from '@navigation/RootNavigation'
+import { ApiProvider } from '@src/state/context/ApiContext'
+import { RootNavigation } from '@src/navigation/RootNavigation'
 import SplashScreen from 'react-native-splash-screen'
 
 const App = () => {
