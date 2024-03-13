@@ -15,9 +15,17 @@ export const HomeScreen = () => {
   const [containerWidth, setContainerWidth] = useState(0)
   const { animatedLogoStyle, animatedBackgroundStyle, animationFinished } =
     useInitialAnimation()
-  const { data, fetchNextPage, hasNextPage } = useGetInvoices()
-
-  console.log('DATA', data)
+  const {
+    data,
+    reset,
+    refetch,
+    isLoading,
+    hasNextPage,
+    isRefetching,
+    fetchNextPage,
+    toggleEmptyTest,
+    toggleLoadingTest,
+  } = useGetInvoices()
 
   return (
     <Animated.View className="flex-1 p-6" style={[animatedBackgroundStyle]}>
@@ -46,6 +54,14 @@ export const HomeScreen = () => {
             <WelcomeMessage />
             <Spacer size={4} />
             <InvoiceInfinityList
+              testingHandlers={{
+                testEmpty: toggleEmptyTest,
+                testLoading: toggleLoadingTest,
+                reset,
+              }}
+              isLoading={isLoading}
+              refetch={refetch}
+              isRefetching={isRefetching}
               invoices={data?.pages.flatMap((page) => page.invoices)}
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}

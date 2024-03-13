@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import { useApi } from '@src/state/hooks/useApi'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 import { useInfiniteQuery } from 'react-query'
 
@@ -8,9 +8,11 @@ const INITIAL_PAGE = 1
 const ITEMS_PER_PAGE = 10
 
 export const useGetInvoices = () => {
+  const [isLoadingTestActive, setIsLoadingTestActive] = useState(false)
+  const [isEmptyTestActive, setIsEmptyTestActive] = useState(false)
+
   const apiClient = useApi()
 
-  // Utiliza useInfiniteQuery para cargar las facturas
   const {
     data,
     error,
@@ -18,6 +20,7 @@ export const useGetInvoices = () => {
     isError,
     isLoading,
     hasNextPage,
+    isRefetching,
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(
@@ -26,7 +29,7 @@ export const useGetInvoices = () => {
       const response = await apiClient.getInvoices({
         page: pageParam,
         per_page: ITEMS_PER_PAGE,
-      }) // Asegúrate de que este método acepte un parámetro de página y devuelva los datos en el formato correcto
+      })
       return response.data
     },
     {
@@ -46,13 +49,35 @@ export const useGetInvoices = () => {
     }, [refetch]),
   )
 
+  const toggleLoadingTest = () => {
+    setIsLoadingTestActive(!isLoadingTestActive)
+    setIsEmptyTestActive(false)
+  }
+
+  const toggleEmptyTest = () => {
+    setIsLoadingTestActive(false)
+    setIsEmptyTestActive(!isEmptyTestActive)
+  }
+
+  const reset = () => {
+    setIsLoadingTestActive(false)
+    setIsEmptyTestActive(false)
+  }
+
   return {
-    data,
     error,
+    reset,
     isError,
-    isLoading,
+    refetch,
     hasNextPage,
+    isRefetching,
     fetchNextPage,
+    toggleEmptyTest,
+    toggleLoadingTest,
+    isEmptyTestActive,
     isFetchingNextPage,
+    isLoadingTestActive,
+    isLoading: isLoadingTestActive ? true : isLoading,
+    data: isEmptyTestActive || isLoadingTestActive ? { pages: [] } : data,
   }
 }
