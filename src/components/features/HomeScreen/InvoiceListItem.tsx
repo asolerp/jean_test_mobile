@@ -1,5 +1,5 @@
 import { InvoiceType } from '@src/utils/types'
-import { Text, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import Dollar from '@src/assets/icons/dollar.svg'
 import { RED_100 } from '@src/utils/colors'
 import { Spacer } from '@src/components/common/Spacer'
@@ -7,6 +7,8 @@ import { formatCurrency } from 'react-native-format-currency'
 import { Badge } from '@src/components/common/Badge'
 import Clock from '@src/assets/icons/clock.svg'
 import Deadline from '@src/assets/icons/deadline.svg'
+import { openScreen } from '@src/navigation/utils/actions'
+import { INVOICE_SCREEN_KEY } from '@src/screens/utils/keys'
 
 type InvoiceListItemProps = {
   invoice: InvoiceType
@@ -34,16 +36,23 @@ export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
   })
 
   return (
-    <View className="flex-row justify-between">
+    <TouchableOpacity
+      onPress={() =>
+        openScreen(INVOICE_SCREEN_KEY, {
+          invoiceId: invoice.id,
+        })
+      }
+      className="flex-row justify-between"
+    >
       <View className="flex-row">
-        <View className="p-5 bg-red-300 rounded-2xl">
+        <View className="p-5 bg-red-300 rounded-2xl justify-center items-center">
           <Dollar width={20} height={20} fill={RED_100} />
         </View>
         <Spacer size={1} isHorizontal />
         <View className="py-2">
           <Badge
-            label={finalized ? 'Not finalized' : 'Finalized'}
-            state={finalized ? 'danger' : 'success'}
+            label={finalized ? 'Finalized' : 'Not finalized'}
+            state={finalized ? 'success' : 'danger'}
           />
           <Text className="text-lg">
             {first_name} {last_name}
@@ -73,6 +82,6 @@ export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
           {symbol}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
