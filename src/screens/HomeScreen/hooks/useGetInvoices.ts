@@ -1,4 +1,6 @@
+import { useFocusEffect } from '@react-navigation/native'
 import { useApi } from '@src/state/hooks/useApi'
+import { useCallback } from 'react'
 
 import { useInfiniteQuery } from 'react-query'
 
@@ -11,11 +13,12 @@ export const useGetInvoices = () => {
   // Utiliza useInfiniteQuery para cargar las facturas
   const {
     data,
-    isLoading,
-    isError,
     error,
-    fetchNextPage,
+    refetch,
+    isError,
+    isLoading,
     hasNextPage,
+    fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(
     'invoices',
@@ -37,13 +40,19 @@ export const useGetInvoices = () => {
     },
   )
 
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+    }, [refetch]),
+  )
+
   return {
     data,
-    isLoading,
-    isError,
     error,
-    fetchNextPage,
+    isError,
+    isLoading,
     hasNextPage,
+    fetchNextPage,
     isFetchingNextPage,
   }
 }
