@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks'
-import { useGetInvoices } from './useGetInvoices'
+import { useInvoices } from './useInvoices'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient()
@@ -30,9 +30,9 @@ const wrapper = ({ children }: any) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 )
 
-describe('useGetInvoices', () => {
+describe('useInvoices', () => {
   it('fetches invoices and exposes the state', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGetInvoices(), {
+    const { result, waitForNextUpdate } = renderHook(() => useInvoices(), {
       wrapper,
     })
 
@@ -60,7 +60,7 @@ describe('useGetInvoices', () => {
   })
 
   it('toggles loading test', () => {
-    const { result } = renderHook(() => useGetInvoices(), {
+    const { result } = renderHook(() => useInvoices(), {
       wrapper,
     })
 
@@ -72,7 +72,7 @@ describe('useGetInvoices', () => {
   })
 
   it('toggles empty test', () => {
-    const { result } = renderHook(() => useGetInvoices(), {
+    const { result } = renderHook(() => useInvoices(), {
       wrapper,
     })
 
@@ -84,7 +84,7 @@ describe('useGetInvoices', () => {
   })
 
   it('resets the tests', () => {
-    const { result } = renderHook(() => useGetInvoices(), {
+    const { result } = renderHook(() => useInvoices(), {
       wrapper,
     })
 
@@ -99,7 +99,7 @@ describe('useGetInvoices', () => {
   })
 
   it('fetches next page of invoices when fetchNextPage is called', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGetInvoices(), {
+    const { result, waitForNextUpdate } = renderHook(() => useInvoices(), {
       wrapper,
     })
 

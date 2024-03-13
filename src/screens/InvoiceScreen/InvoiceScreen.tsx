@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useGetInvoice } from './hooks/useGetInvoice'
+import { useInvoice } from './hooks/useInvoice'
 
 import { CustomerSection } from '@src/components/features/InvoiceScreen/CustomerSection'
 import { DateSection } from '@src/components/features/InvoiceScreen/DateSection'
@@ -31,9 +31,10 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
   const invoiceId = route?.params?.invoiceId
   const {
     isLoading,
+    updateInvoice,
     deleteInvoiceWithAlert,
     invoice: { total, finalized, customer, date, deadline, invoice_lines } = {},
-  } = useGetInvoice({
+  } = useInvoice({
     invoiceId,
   })
 
@@ -92,7 +93,9 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
       </ScrollView>
       {!isLoading && !finalized && (
         <Animated.View entering={FadeIn} className="px-6">
-          <CustomButton size="large">Finalize Invoice</CustomButton>
+          <CustomButton onPress={() => updateInvoice(true)} size="large">
+            Finalize Invoice
+          </CustomButton>
         </Animated.View>
       )}
     </SafeAreaView>

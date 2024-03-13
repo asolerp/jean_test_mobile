@@ -1,13 +1,13 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react-native'
 import { InvoiceScreen } from './InvoiceScreen'
-import { useGetInvoice } from './hooks/useGetInvoice'
+import { useInvoice } from './hooks/useInvoice'
 
-jest.mock('./hooks/useGetInvoice', () => ({
-  useGetInvoice: jest.fn(),
+jest.mock('./hooks/useInvoice', () => ({
+  useInvoice: jest.fn(),
 }))
 
-const mockUseGetInvoice = useGetInvoice as jest.Mock
+const mockUseInvoice = useInvoice as jest.Mock
 
 describe('InvoiceScreen', () => {
   const route = { params: { invoiceId: '123' } }
@@ -21,7 +21,7 @@ describe('InvoiceScreen', () => {
   }
 
   it('shows loading state correctly', () => {
-    mockUseGetInvoice.mockReturnValue({
+    mockUseInvoice.mockReturnValue({
       isLoading: true,
       deleteInvoiceWithAlert: jest.fn(),
       invoice: mockInvoice,
@@ -35,7 +35,7 @@ describe('InvoiceScreen', () => {
   it('calls deleteInvoiceWithAlert correctly', () => {
     const deleteInvoiceWithAlert = jest.fn()
 
-    mockUseGetInvoice.mockReturnValue({
+    mockUseInvoice.mockReturnValue({
       isLoading: false,
       deleteInvoiceWithAlert,
       invoice: mockInvoice,

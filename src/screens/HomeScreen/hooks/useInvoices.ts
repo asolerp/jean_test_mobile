@@ -7,7 +7,7 @@ import { useInfiniteQuery } from 'react-query'
 const INITIAL_PAGE = 1
 const ITEMS_PER_PAGE = 10
 
-export const useGetInvoices = () => {
+export const useInvoices = () => {
   const [isLoadingTestActive, setIsLoadingTestActive] = useState(false)
   const [isEmptyTestActive, setIsEmptyTestActive] = useState(false)
 

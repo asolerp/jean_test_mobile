@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react-hooks'
 import { useQuery, useMutation } from 'react-query'
 import { useApi } from '@src/state/hooks/useApi'
-import { useGetInvoice } from './useGetInvoice'
+import { useInvoice } from './useInvoice'
 import { alertDeleteInvoice } from '../utils/alert'
 
 jest.mock('react-query')
@@ -13,7 +13,7 @@ const mockUseApi = useApi as jest.Mock
 const mockUseQuery = useQuery as jest.Mock
 const mockUseMutation = useMutation as jest.Mock
 
-describe('useGetInvoice', () => {
+describe('useInvoice', () => {
   beforeAll(() => {
     mockUseApi.mockReturnValue({
       getInvoice: jest.fn().mockResolvedValue({ data: { id: 1 } }),
@@ -31,7 +31,7 @@ describe('useGetInvoice', () => {
   })
 
   it('should get invoice and handle delete correctly', () => {
-    const { result } = renderHook(() => useGetInvoice({ invoiceId: '1' }))
+    const { result } = renderHook(() => useInvoice({ invoiceId: '1' }))
 
     expect(result.current.invoice).toEqual({ id: 1 })
     expect(result.current.isLoading).toBe(false)

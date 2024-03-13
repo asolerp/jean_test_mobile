@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { openScreen } from '@src/navigation/utils/actions'
 import { NEW_INVOICE_SCREEN_KEY } from '../utils/keys'
 import { WelcomeMessage } from '@src/components/features/HomeScreen/WelcomeMessage'
-import { useGetInvoices } from './hooks/useGetInvoices'
+import { useInvoices } from './hooks/useInvoices'
 import { Spacer } from '@src/components/common/Spacer'
 import { InvoiceInfinityList } from '@src/components/features/HomeScreen/InvoiceInfinityList'
 import { useShowHidedOptions } from './hooks/useShowHidedOptions'
@@ -28,7 +28,7 @@ export const HomeScreen = () => {
     fetchNextPage,
     toggleEmptyTest,
     toggleLoadingTest,
-  } = useGetInvoices()
+  } = useInvoices()
 
   return (
     <Animated.View className="flex-1 p-6" style={[animatedBackgroundStyle]}>

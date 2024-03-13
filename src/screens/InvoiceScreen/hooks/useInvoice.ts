@@ -5,7 +5,7 @@ import { useQuery, useMutation } from 'react-query'
 import { alertDeleteInvoice } from '../utils/alert'
 import { InvoiceType } from '@src/utils/types'
 
-export const useGetInvoice = ({ invoiceId }: { invoiceId: string }) => {
+export const useInvoice = ({ invoiceId }: { invoiceId: string }) => {
   const apiClient = useApi()
 
   const {
@@ -13,6 +13,7 @@ export const useGetInvoice = ({ invoiceId }: { invoiceId: string }) => {
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery(
     ['invoice', invoiceId],
     async () => {
@@ -38,6 +39,26 @@ export const useGetInvoice = ({ invoiceId }: { invoiceId: string }) => {
     },
   )
 
+  const { mutate: updateInvoice } = useMutation(
+    'updateInvoice',
+    async (finalizeStatus: boolean) => {
+      await apiClient.putInvoice(
+        {
+          id: Number(invoiceId),
+        },
+        {
+          invoice: {
+            id: Number(invoiceId),
+            finalized: finalizeStatus,
+          },
+        },
+      )
+    },
+    {
+      onSuccess: () => refetch(),
+    },
+  )
+
   const deleteInvoiceWithAlert = () => {
     alertDeleteInvoice(() => deleteInvoice())
   }
@@ -47,6 +68,7 @@ export const useGetInvoice = ({ invoiceId }: { invoiceId: string }) => {
     isError,
     invoice,
     isLoading,
+    updateInvoice,
     deleteInvoiceWithAlert,
   }
 }

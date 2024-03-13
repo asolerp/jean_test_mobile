@@ -17,8 +17,8 @@ jest.mock('./hooks/useShowHidedOptions', () => ({
   }),
 }))
 
-jest.mock('./hooks/useGetInvoices', () => ({
-  useGetInvoices: jest.fn().mockReturnValue({
+jest.mock('./hooks/useInvoices', () => ({
+  useInvoices: jest.fn().mockReturnValue({
     data: {
       pages: [
         {
