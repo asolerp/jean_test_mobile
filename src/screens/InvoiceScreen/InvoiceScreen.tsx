@@ -3,19 +3,21 @@ import { Header, Mode } from '@src/components/layout/Header'
 import {
   ActivityIndicator,
   ScrollView,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useGetInvoice } from './hooks/useGetInvoice'
-import { formatCurrency } from 'react-native-format-currency'
 
 import { CustomerSection } from '@src/components/features/InvoiceScreen/CustomerSection'
 import { DateSection } from '@src/components/features/InvoiceScreen/DateSection'
 import { InvoiceItems } from '@src/components/features/InvoiceScreen/InvoiceItems'
 
 import TrashIcon from '@src/assets/icons/trash.svg'
+import { TopSection } from '@src/components/features/InvoiceScreen/TopSection'
+import { CustomButton } from '@src/components/common/CustomButton'
+import Animated, { FadeIn } from 'react-native-reanimated'
+import { Components } from '@src/api/generated/client'
 
 type InvoiceScreenProps = {
   route: {
@@ -35,11 +37,6 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
     invoiceId,
   })
 
-  const [, totalWithoutSymbol, symbol] = formatCurrency({
-    amount: Number(total),
-    code: 'EUR',
-  })
-
   return (
     <SafeAreaView
       edges={['bottom']}
@@ -49,39 +46,28 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
         flex: 1,
       }}
     >
-      <View className="bg-pennylaneSecondary h-[250px]">
+      <View className="bg-pennylaneSecondary h-[210px]">
         <Spacer size={4} />
         <Header
           mode={Mode.WHITE}
           rightComponent={
-            !finalized && (
-              <TouchableOpacity onPress={deleteInvoiceWithAlert}>
+            !finalized &&
+            !isLoading && (
+              <TouchableOpacity
+                testID="DeleteButton"
+                onPress={deleteInvoiceWithAlert}
+              >
                 <TrashIcon width={20} height={20} fill="white" />
               </TouchableOpacity>
             )
           }
         />
-        <View className="items-center">
-          <View
-            className={`${finalized ? 'bg-pennylanePrimary' : 'bg-red-600'}  w-28 rounded-xl p-2 justify-center items-center`}
-          >
-            <Text
-              className={`${finalized ? 'text-pennylaneSecondary' : 'text-red-100'} text-sm`}
-            >
-              {finalized ? 'Finalized' : 'Not finalized'}
-            </Text>
-          </View>
-          <Spacer size={2} />
-          <Text className="text-pennylanePrimary font-extrabold text-4xl">
-            {totalWithoutSymbol}
-            {symbol}
-          </Text>
-        </View>
+        <TopSection total={total} isLoading={isLoading} finalized={finalized} />
         <Spacer size={2} />
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        className="p-6 flex-1"
+        className="p-6 flex-grow"
         // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{
           flexGrow: 1,
@@ -90,11 +76,13 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
       >
         {isLoading ? (
           <View className="flex-1 justify-center items-center">
-            <ActivityIndicator />
+            <ActivityIndicator testID="LoadingIndicator" size="large" />
           </View>
         ) : (
           <View>
-            <CustomerSection customer={customer} />
+            <CustomerSection
+              customer={customer as Components.Schemas.Customer}
+            />
             <Spacer size={4} />
             <DateSection date={date as string} deadline={deadline as string} />
             <Spacer size={4} />
@@ -102,6 +90,11 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
           </View>
         )}
       </ScrollView>
+      {!isLoading && !finalized && (
+        <Animated.View entering={FadeIn} className="px-6">
+          <CustomButton size="large">Finalize Invoice</CustomButton>
+        </Animated.View>
+      )}
     </SafeAreaView>
   )
 }

@@ -14,6 +14,7 @@ export const AddButton: React.FC<AddButtonProps> = ({
 }) => {
   return (
     <TouchableOpacity
+      testID="AddButton"
       onPress={onPress}
       style={{
         width: BUTTON_SIZE,

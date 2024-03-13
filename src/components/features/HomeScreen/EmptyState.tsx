@@ -4,7 +4,7 @@ import { CustomText } from '@src/components/common/CustomText'
 
 export const EmptyState = () => {
   return (
-    <View className="flex-1 justify-center items-center">
+    <View testID="EmptyState" className="flex-1 justify-center items-center">
       <EmptyStateIllustration width={300} height={200} />
       <CustomText
         size="extraLarge3"

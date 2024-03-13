@@ -23,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
     <View className="flex-row items-center p-6 justify-between">
       <TouchableOpacity onPress={() => popScreen()}>
         <ArrowLeft
+          testID="ArrowIcon"
           width={30}
           height={30}
           fill={mode === Mode.DARK ? GRAY_900 : 'white'}

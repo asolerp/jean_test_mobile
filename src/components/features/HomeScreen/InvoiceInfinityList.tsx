@@ -1,12 +1,13 @@
 import { InvoiceType } from '@src/utils/types'
-import { FlatList, RefreshControl, Text, View } from 'react-native'
+import { FlatList, Pressable, RefreshControl, Text, View } from 'react-native'
 import { InvoiceListItem } from './InvoiceListItem'
 import { useCallback } from 'react'
 import { Spacer } from '@src/components/common/Spacer'
 import { InvoicesPlaceholder } from './InvoicesPlaceholder'
 
 import { EmptyState } from './EmptyState'
-import { CustomButton } from '@src/components/common/CustomButton'
+
+const LIST_PADDING_BOTTOM = 110
 
 type InvoiceInfinityListProps = {
   testingHandlers: {
@@ -20,6 +21,7 @@ type InvoiceInfinityListProps = {
   hasNextPage?: boolean
   isLoading?: boolean
   fetchNextPage: () => void
+  onPressHidedOptions: () => void
 }
 
 export const InvoiceInfinityList: React.FC<InvoiceInfinityListProps> = ({
@@ -29,7 +31,7 @@ export const InvoiceInfinityList: React.FC<InvoiceInfinityListProps> = ({
   hasNextPage,
   isRefetching,
   fetchNextPage,
-  testingHandlers,
+  onPressHidedOptions,
 }) => {
   const renderItems = useCallback(({ item }: { item: InvoiceType }) => {
     return <InvoiceListItem invoice={item} />
@@ -46,31 +48,16 @@ export const InvoiceInfinityList: React.FC<InvoiceInfinityListProps> = ({
     return <EmptyState />
   }, [isLoading])
 
-  console.log('isRefetching', isRefetching)
-
   return (
     <View className="flex-1">
-      <View>
-        <View className="flex-row">
-          <CustomButton onPress={() => testingHandlers?.testLoading()}>
-            Test loading
-          </CustomButton>
-          <Spacer size={1} isHorizontal />
-          <CustomButton onPress={() => testingHandlers?.testEmpty()}>
-            Test empty
-          </CustomButton>
-          <Spacer size={1} isHorizontal />
-          <CustomButton onPress={() => testingHandlers?.reset()}>
-            Reset
-          </CustomButton>
-        </View>
-        <Spacer size={2} />
+      <Pressable onPress={onPressHidedOptions}>
         <Text className="text-xl font-semibold text-pennylaneSecondary">
           Your invoices
         </Text>
-      </View>
+      </Pressable>
       <Spacer size={1} />
       <FlatList
+        testID="InvoiceInfinityList"
         refreshControl={
           <RefreshControl
             refreshing={isRefetching || false}
@@ -84,9 +71,8 @@ export const InvoiceInfinityList: React.FC<InvoiceInfinityListProps> = ({
         ListEmptyComponent={renderListEmptyComponent}
         ItemSeparatorComponent={renderItemSeparator}
         onEndReached={() => hasNextPage && fetchNextPage()}
-        onEndReachedThreshold={0.1}
-        // eslint-disable-next-line react-native/no-inline-styles
-        contentContainerStyle={{ paddingBottom: 150 }}
+        onEndReachedThreshold={0.3}
+        contentContainerStyle={{ paddingBottom: LIST_PADDING_BOTTOM }}
       />
     </View>
   )

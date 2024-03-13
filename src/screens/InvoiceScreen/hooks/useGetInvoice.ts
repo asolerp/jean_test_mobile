@@ -3,6 +3,7 @@ import { useApi } from '@src/state/hooks/useApi'
 
 import { useQuery, useMutation } from 'react-query'
 import { alertDeleteInvoice } from '../utils/alert'
+import { InvoiceType } from '@src/utils/types'
 
 export const useGetInvoice = ({ invoiceId }: { invoiceId: string }) => {
   const apiClient = useApi()
@@ -18,7 +19,7 @@ export const useGetInvoice = ({ invoiceId }: { invoiceId: string }) => {
       const response = await apiClient.getInvoice({
         id: Number(invoiceId),
       })
-      return response.data
+      return response.data as InvoiceType
     },
     { initialData: undefined },
   )

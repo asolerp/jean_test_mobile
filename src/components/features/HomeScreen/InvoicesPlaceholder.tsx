@@ -1,3 +1,4 @@
+import { View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 
 export const InvoicesPlaceholder = () => {
@@ -22,5 +23,5 @@ export const InvoicesPlaceholder = () => {
     </SkeletonPlaceholder>
   ))
 
-  return <>{skeletons}</>
+  return <View testID="InvoicesPlaceholder">{skeletons}</View>
 }

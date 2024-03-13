@@ -10,9 +10,12 @@ import { WelcomeMessage } from '@src/components/features/HomeScreen/WelcomeMessa
 import { useGetInvoices } from './hooks/useGetInvoices'
 import { Spacer } from '@src/components/common/Spacer'
 import { InvoiceInfinityList } from '@src/components/features/HomeScreen/InvoiceInfinityList'
+import { useShowHidedOptions } from './hooks/useShowHidedOptions'
+import { DevOptions } from '@src/components/features/HomeScreen/DevOptions'
 
 export const HomeScreen = () => {
   const [containerWidth, setContainerWidth] = useState(0)
+  const { showHidedOptions, showOptions } = useShowHidedOptions()
   const { animatedLogoStyle, animatedBackgroundStyle, animationFinished } =
     useInitialAnimation()
   const {
@@ -53,12 +56,23 @@ export const HomeScreen = () => {
           >
             <WelcomeMessage />
             <Spacer size={4} />
+            {showOptions && (
+              <DevOptions
+                handlers={{
+                  testEmpty: toggleEmptyTest,
+                  testLoading: toggleLoadingTest,
+                  reset,
+                }}
+              />
+            )}
+            <Spacer size={2} />
             <InvoiceInfinityList
               testingHandlers={{
                 testEmpty: toggleEmptyTest,
                 testLoading: toggleLoadingTest,
                 reset,
               }}
+              onPressHidedOptions={showHidedOptions}
               isLoading={isLoading}
               refetch={refetch}
               isRefetching={isRefetching}
