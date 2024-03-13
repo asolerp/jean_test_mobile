@@ -45,9 +45,6 @@ export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
       className="flex-row justify-between"
     >
       <View className="flex-row">
-        <View className="p-5 bg-red-300 rounded-2xl justify-center items-center">
-          <Dollar width={20} height={20} fill={RED_100} />
-        </View>
         <Spacer size={1} isHorizontal />
         <View className="py-2">
           <Badge
