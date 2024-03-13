@@ -1,4 +1,4 @@
-import { Text } from 'react-native'
+import { CustomText } from './CustomText'
 
 type BadgeProps = {
   label: string
@@ -11,5 +11,5 @@ export const Badge: React.FC<BadgeProps> = ({ label, state = 'success' }) => {
     danger: 'text-red-900',
   }
 
-  return <Text className={`text-xs ${mapTextColor[state]} w-fit`}>{label}</Text>
+  return <CustomText className={`${mapTextColor[state]}`}>{label}</CustomText>
 }

@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 type CustomTextProps = {
   children: string
   className?: string
-  size:
+  size?:
     | 'small'
     | 'medium'
     | 'large'
@@ -11,12 +11,12 @@ type CustomTextProps = {
     | 'extraLarge3'
     | 'extraLarge4'
     | 'extraLarge5'
-  weight: 'light' | 'normal' | 'semibold' | 'bold'
+  weight?: 'light' | 'normal' | 'semibold' | 'bold'
 }
 
 export const CustomText: React.FC<CustomTextProps> = ({
-  size,
-  weight,
+  size = 'medium',
+  weight = 'normal',
   children,
   className,
 }) => {
