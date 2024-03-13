@@ -1,7 +1,6 @@
 import { InvoiceType } from '@src/utils/types'
 import { Text, TouchableOpacity, View } from 'react-native'
-import Dollar from '@src/assets/icons/dollar.svg'
-import { RED_100 } from '@src/utils/colors'
+
 import { Spacer } from '@src/components/common/Spacer'
 import { formatCurrency } from 'react-native-format-currency'
 import { Badge } from '@src/components/common/Badge'
