@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity } from 'react-native'
 
 const BUTTON_SIZE = 70
-const BOTTOM_POSITION = 0
+const BOTTOM_POSITION = 20
 
 type AddButtonProps = {
   containerWidth: number
