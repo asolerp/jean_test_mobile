@@ -1,17 +1,27 @@
-import { TouchableOpacity } from 'react-native'
+import { ActivityIndicator, TouchableOpacity } from 'react-native'
 import { CustomText } from './CustomText'
+import { Sizes, Variants } from '@src/utils/types'
 
 type CustomButtonProps = {
   onPress?: () => void
-  size?: 'small' | 'medium' | 'large'
+  loading?: boolean
+  variant?: Variants
+  size?: Sizes
   children: string
 }
 
 export const CustomButton: React.FC<CustomButtonProps> = ({
   onPress,
+  loading,
   children,
-  size = 'medium',
+  size = Sizes.MEDIUM,
+  variant = Variants.SUCCESS,
 }) => {
+  const mapBackgroundColor = {
+    success: 'bg-pennylaneSecondary',
+    danger: 'bg-red-400',
+  }
+
   const mapSize = {
     small: 'p-1',
     medium: 'p-2',
@@ -21,11 +31,15 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`${mapSize[size]} p-2 bg-pennylaneSecondary justify-center items-center rounded-lg`}
+      className={`${mapSize[size]} p-2 ${mapBackgroundColor[variant]} justify-center items-center rounded-lg`}
     >
-      <CustomText weight="semibold" className="text-white">
-        {children}
-      </CustomText>
+      {loading ? (
+        <ActivityIndicator size="small" color="#fff" />
+      ) : (
+        <CustomText weight="semibold" className="text-white text-lg">
+          {children}
+        </CustomText>
+      )}
     </TouchableOpacity>
   )
 }

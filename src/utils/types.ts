@@ -44,3 +44,14 @@ export type InvoiceType = {
   invoice_lines: Components.Schemas.InvoiceLine[]
   customer?: Components.Schemas.Customer
 }
+
+export enum Variants {
+  SUCCESS = 'success',
+  DANGER = 'danger',
+}
+
+export enum Sizes {
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
+}
