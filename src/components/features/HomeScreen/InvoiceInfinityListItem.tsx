@@ -98,7 +98,7 @@ const areEqual = (
   nextProps: InvoiceListItemProps,
 ) => {
   return (
-    prevProps.invoice.paid === nextProps.invoice.paid ||
+    prevProps.invoice.paid === nextProps.invoice.paid &&
     prevProps.invoice.finalized === nextProps.invoice.finalized
   )
 }
