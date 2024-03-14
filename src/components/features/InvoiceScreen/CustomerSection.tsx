@@ -2,8 +2,10 @@ import { CustomText } from '@src/components/common/CustomText'
 import { Spacer } from '@src/components/common/Spacer'
 import { View } from 'react-native'
 import { InvoiceElement } from './InvoiceElement'
+import { Badge } from '@src/components/common/Badge'
 
 type CustomerSectionProps = {
+  paid: boolean
   customer: {
     first_name: string
     last_name: string
@@ -14,19 +16,25 @@ type CustomerSectionProps = {
 }
 
 export const CustomerSection: React.FC<CustomerSectionProps> = ({
+  paid,
   customer,
 }) => {
   const { first_name, last_name, address, city, country } = customer || {}
 
   return (
     <View>
-      <CustomText
-        size="extraLarge"
-        weight="semibold"
-        className="text-pennylaneSecondary"
-      >
-        Customer
-      </CustomText>
+      <View className="flex-row items-center justify-between">
+        <CustomText
+          size="extraLarge"
+          weight="semibold"
+          className="text-pennylaneSecondary"
+        >
+          Customer
+        </CustomText>
+        <Badge state={paid ? 'success' : 'danger'}>
+          {paid ? 'Paid' : 'Not paid'}
+        </Badge>
+      </View>
       <Spacer size={2} />
       <View className="flex-column">
         <InvoiceElement label="Name">

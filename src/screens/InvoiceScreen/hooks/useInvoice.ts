@@ -39,9 +39,11 @@ export const useInvoice = ({ invoiceId }: { invoiceId: string }) => {
     },
   )
 
-  const { mutate: updateInvoice } = useMutation(
+  const { mutate: updateInvoice, isLoading: isLoadingUpdate } = useMutation(
     'updateInvoice',
-    async (finalizeStatus: boolean) => {
+    async (body: any) => {
+      const { paid, finalized } = body
+
       await apiClient.putInvoice(
         {
           id: Number(invoiceId),
@@ -49,7 +51,8 @@ export const useInvoice = ({ invoiceId }: { invoiceId: string }) => {
         {
           invoice: {
             id: Number(invoiceId),
-            finalized: finalizeStatus,
+            finalized: finalized === undefined ? invoice?.finalized : finalized,
+            paid: paid === undefined ? invoice?.paid : paid,
           },
         },
       )
@@ -69,6 +72,7 @@ export const useInvoice = ({ invoiceId }: { invoiceId: string }) => {
     invoice,
     isLoading,
     updateInvoice,
+    isLoadingUpdate,
     deleteInvoiceWithAlert,
   }
 }

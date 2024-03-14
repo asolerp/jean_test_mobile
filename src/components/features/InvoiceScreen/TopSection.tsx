@@ -1,3 +1,4 @@
+import { Badge } from '@src/components/common/Badge'
 import { CustomText } from '@src/components/common/CustomText'
 import { Spacer } from '@src/components/common/Spacer'
 import { View } from 'react-native'
@@ -42,7 +43,10 @@ export const TopSection: React.FC<TopSectionProps> = ({
 
   return (
     <View className="items-center">
-      <View
+      <Badge state={finalized ? 'success' : 'danger'}>
+        {finalized ? 'Finalized' : 'Not finalized'}
+      </Badge>
+      {/* <View
         className={`${finalized ? 'bg-pennylanePrimary' : 'bg-red-600'}  w-28 rounded-xl p-2 justify-center items-center`}
       >
         <CustomText
@@ -51,7 +55,7 @@ export const TopSection: React.FC<TopSectionProps> = ({
         >
           {finalized ? 'Finalized' : 'Not finalized'}
         </CustomText>
-      </View>
+      </View> */}
       <Spacer size={2} />
       <CustomText
         size="extraLarge4"

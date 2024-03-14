@@ -3,26 +3,30 @@ import { TouchableOpacity, View } from 'react-native'
 
 import { Spacer } from '@src/components/common/Spacer'
 import { formatCurrency } from 'react-native-format-currency'
-import { Badge } from '@src/components/common/Badge'
+
 import Clock from '@src/assets/icons/clock.svg'
 import Deadline from '@src/assets/icons/deadline.svg'
 import { openScreen } from '@src/navigation/utils/actions'
 import { INVOICE_SCREEN_KEY } from '@src/screens/utils/keys'
 import { CustomText } from '@src/components/common/CustomText'
+import DollarIcon from '@src/assets/icons/dollar.svg'
+import { PENNYLANE_SECONDARY } from '@src/utils/colors'
+import { memo } from 'react'
 
 type InvoiceListItemProps = {
   invoice: InvoiceType
 }
 
-export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
+const InvoiceInfinityListItem: React.FC<InvoiceListItemProps> = ({
   invoice,
 }) => {
   const {
     customer: { first_name, last_name } = {},
-    date,
-    deadline,
-    total,
     tax,
+    date,
+    paid,
+    total,
+    deadline,
     finalized,
   } = invoice
 
@@ -42,15 +46,25 @@ export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
           invoiceId: invoice.id,
         })
       }
-      className="flex-row justify-between"
+      className="flex-row justify-between items-center"
     >
       <View className="flex-row">
+        <View
+          className={`p-3 rounded-md ${paid ? 'bg-pennylanePrimary' : 'bg-red-400'}  justify-center items-center`}
+        >
+          <DollarIcon
+            width={15}
+            height={15}
+            fill={paid ? PENNYLANE_SECONDARY : 'white'}
+          />
+        </View>
         <Spacer size={1} isHorizontal />
         <View className="py-2">
-          <Badge
-            label={finalized ? 'Finalized' : 'Not finalized'}
-            state={finalized ? 'success' : 'danger'}
-          />
+          <CustomText
+            className={`${finalized ? 'text-pennylaneSecondary' : 'text-red-600'}`}
+          >
+            {finalized ? 'Finalized' : 'Not finalized'}
+          </CustomText>
           <CustomText size="extraLarge" weight="normal">
             {`${first_name} ${last_name}`}
           </CustomText>
@@ -78,3 +92,15 @@ export const InvoiceListItem: React.FC<InvoiceListItemProps> = ({
     </TouchableOpacity>
   )
 }
+
+const areEqual = (
+  prevProps: InvoiceListItemProps,
+  nextProps: InvoiceListItemProps,
+) => {
+  return (
+    prevProps.invoice.paid === nextProps.invoice.paid ||
+    prevProps.invoice.finalized === nextProps.invoice.finalized
+  )
+}
+
+export default memo(InvoiceInfinityListItem, areEqual)

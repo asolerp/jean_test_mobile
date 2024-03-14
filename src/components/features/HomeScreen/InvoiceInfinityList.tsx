@@ -1,6 +1,6 @@
 import { InvoiceType } from '@src/utils/types'
 import { FlatList, Pressable, RefreshControl, Text, View } from 'react-native'
-import { InvoiceListItem } from './InvoiceListItem'
+import InvoiceInfinityListItem from './InvoiceInfinityListItem'
 import { useCallback } from 'react'
 import { Spacer } from '@src/components/common/Spacer'
 import { InvoicesPlaceholder } from './InvoicesPlaceholder'
@@ -34,11 +34,11 @@ export const InvoiceInfinityList: React.FC<InvoiceInfinityListProps> = ({
   onPressHidedOptions,
 }) => {
   const renderItems = useCallback(({ item }: { item: InvoiceType }) => {
-    return <InvoiceListItem invoice={item} />
+    return <InvoiceInfinityListItem invoice={item} />
   }, [])
 
   const renderItemSeparator = useCallback(() => {
-    return <Spacer size={0.5} />
+    return <Spacer size={1} />
   }, [])
 
   const renderListEmptyComponent = useCallback(() => {
@@ -55,7 +55,7 @@ export const InvoiceInfinityList: React.FC<InvoiceInfinityListProps> = ({
           Your invoices
         </Text>
       </Pressable>
-      <Spacer size={1} />
+      <Spacer size={3} />
       <FlatList
         testID="InvoiceInfinityList"
         refreshControl={

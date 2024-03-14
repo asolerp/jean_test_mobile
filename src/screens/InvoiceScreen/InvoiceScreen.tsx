@@ -15,9 +15,9 @@ import { InvoiceItems } from '@src/components/features/InvoiceScreen/InvoiceItem
 
 import TrashIcon from '@src/assets/icons/trash.svg'
 import { TopSection } from '@src/components/features/InvoiceScreen/TopSection'
-import { CustomButton } from '@src/components/common/CustomButton'
-import Animated, { FadeIn } from 'react-native-reanimated'
+
 import { Components } from '@src/api/generated/client'
+import { BottomActions } from '@src/components/features/InvoiceScreen/BottomActions'
 
 type InvoiceScreenProps = {
   route: {
@@ -32,8 +32,17 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
   const {
     isLoading,
     updateInvoice,
+    isLoadingUpdate,
     deleteInvoiceWithAlert,
-    invoice: { total, finalized, customer, date, deadline, invoice_lines } = {},
+    invoice: {
+      total,
+      finalized,
+      customer,
+      date,
+      deadline,
+      invoice_lines,
+      paid,
+    } = {},
   } = useInvoice({
     invoiceId,
   })
@@ -82,6 +91,7 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
         ) : (
           <View>
             <CustomerSection
+              paid={paid as boolean}
               customer={customer as Components.Schemas.Customer}
             />
             <Spacer size={4} />
@@ -91,13 +101,13 @@ export const InvoiceScreen: React.FC<InvoiceScreenProps> = ({ route }) => {
           </View>
         )}
       </ScrollView>
-      {!isLoading && !finalized && (
-        <Animated.View entering={FadeIn} className="px-6">
-          <CustomButton onPress={() => updateInvoice(true)} size="large">
-            Finalize Invoice
-          </CustomButton>
-        </Animated.View>
-      )}
+      <BottomActions
+        isLoading={isLoading}
+        isLoadingUpdate={isLoadingUpdate}
+        finalized={finalized as boolean}
+        paid={paid as boolean}
+        updateInvoice={updateInvoice}
+      />
     </SafeAreaView>
   )
 }
